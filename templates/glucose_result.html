@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <link rel="icon" href="{{ url_for('static', filename='icons8-diabetes-64.png') }}" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        /* Styling for the container */
+        .result-container {
+            border: 2px solid #333;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 400px;
+        }
+        h2 {
+            color: #333;
+            display: inline-block; /* Make it inline block */
+            margin-right: 10px; /* Adjust spacing */
+        }
+        p {
+            display: inline-block; /* Make it inline block */
+            font-size: 24px;
+        }
+        .button-style {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none; /* Remove default hyperlink underline */
+            display: inline-block; /* Display the button inline */
+            margin-top: 20px; /* Adjust the margin as needed */
+            line-height: 1; /* Adjust the line-height */
+        }
+        .button-style:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h2>Your Glucose Level is :</h2>
+        <p>{{ predicted_glucose }}</p>
+    </div>
+   <a href="{{ url_for('home') }}" class="button-style">
+        <span>Home</span>
+    </a>
+
+</body>
+</html>

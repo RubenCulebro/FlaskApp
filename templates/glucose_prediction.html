@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Predict Glucose Level</title>
+    <link rel="icon" href="{{ url_for('static', filename='icons8-diabetes-64.png') }}" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+            font-size: 36px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Predict Glucose Level</h2>
+    <form action="/predict_glucose" method="post" onsubmit="return validateForm()">
+        <!-- Input fields for user to input data -->
+        <label for="pregnancies">Pregnancies:</label>
+        <input type="text" id="pregnancies" name="pregnancies" placeholder="Enter number of pregnancies" onblur="validateField('pregnancies')"><br>
+
+
+        <label for="blood_pressure">Blood Pressure:</label>
+        <input type="text" id="blood_pressure" name="blood_pressure" placeholder="Enter blood pressure" onblur="validateField('pregnancies')"><br>
+
+        <label for="skin_thickness">Skin Thickness:</label>
+        <input type="text" id="skin_thickness" name="skin_thickness" placeholder="Enter skin thickness" onblur="validateField('pregnancies')"><br>
+
+        <label for="insulin">Insulin:</label>
+        <input type="text" id="insulin" name="insulin" placeholder="Enter insulin level" onblur="validateField('pregnancies')"><br>
+
+        <label for="bmi">BMI:</label>
+        <input type="text" id="bmi" name="bmi" placeholder="Enter BMI" onblur="validateField('pregnancies')"><br>
+
+        <label for="diabetes_pedigree_function">Diabetes Pedigree Function:</label>
+        <input type="text" id="diabetes_pedigree_function" name="diabetes_pedigree_function" placeholder="Enter diabetes pedigree function" onblur="validateField('pregnancies')"><br>
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age" placeholder="Enter age" onblur="validateField('pregnancies')"><br>
+
+        <label for="outcome">Outcome:</label>
+        <input type="text" id="outcome" name="outcome" placeholder="Enter 0 or 1" onblur="validateField('pregnancies')">
+
+
+        <input type="submit" value="Predict">
+    </form>
+</body>
+</html>
+
+<script>
+    document.getElementById("age").addEventListener("input", function() {
+    let ageInput = document.getElementById("age").value.trim(); // Trim any leading/trailing spaces
+    if (ageInput === '') {
+        // If the input is empty after backspacing or contains only spaces
+        return; // Don't perform validation
+    }
+
+    let ageValue = parseInt(ageInput);
+    if (ageValue < 0 || isNaN(ageValue)) {
+        alert("Please enter a positive age.");
+        document.getElementById("age").value = ""; // Clear the input field
+    }
+    });
+   document.getElementById("pregnancies").addEventListener("input", function() {
+    let pregnanciesInput = document.getElementById("pregnancies").value.trim(); // Trim any leading/trailing spaces
+    if (pregnanciesInput === '') {
+        // If the input is empty after backspacing or contains only spaces
+        return; // Don't perform validation
+    }
+
+    let pregnanciesValue = parseInt(pregnanciesInput);
+    if (pregnanciesValue < 0 || isNaN(pregnanciesValue)) {
+        alert("Please enter a positive number for pregnancies.");
+        document.getElementById("pregnancies").value = ""; // Clear the input field
+    }
+    });
+
+
+
+
+    document.getElementById("skin_thickness").addEventListener("input", function() {
+    let skinThicknessInput = document.getElementById("skin_thickness").value.trim();
+    if (skinThicknessInput === '') {
+        return; // Don't perform validation if the input is empty or contains only spaces
+    }
+
+    let skinThicknessValue = parseInt(skinThicknessInput);
+    if (skinThicknessValue < 0 || isNaN(skinThicknessValue)) {
+        alert("Please enter a positive value for skin thickness.");
+        document.getElementById("skin_thickness").value = ""; // Clear the input field
+    }
+    });
+
+
+    document.getElementById("blood_pressure").addEventListener("input", function() {
+    let bloodPressureInput = document.getElementById("blood_pressure").value.trim();
+    if (bloodPressureInput === '') {
+        return; // Don't perform validation if the input is empty or contains only spaces
+    }
+
+    let bloodPressureValue = parseInt(bloodPressureInput);
+    if (bloodPressureValue < 0 || isNaN(bloodPressureValue)) {
+        alert("Please enter a positive value for blood pressure.");
+        document.getElementById("blood_pressure").value = ""; // Clear the input field
+    }
+    });
+
+    document.getElementById("insulin").addEventListener("input", function() {
+    let insulinInput = document.getElementById("insulin").value.trim();
+    if (insulinInput === '') {
+        return; // Don't perform validation if the input is empty or contains only spaces
+    }
+
+    let insulinValue = parseInt(insulinInput);
+    if (insulinValue < 0 || isNaN(insulinValue)) {
+        alert("Please enter a positive value for insulin.");
+        document.getElementById("insulin").value = ""; // Clear the input field
+    }
+    });
+
+    document.getElementById("bmi").addEventListener("input", function() {
+    let bmiInput = document.getElementById("bmi").value.trim();
+    if (bmiInput === '') {
+        return; // Don't perform validation if the input is empty or contains only spaces
+    }
+
+    let bmiValue = parseFloat(bmiInput);
+    if (bmiValue < 0 || isNaN(bmiValue)) {
+        alert("Please enter a positive value for BMI.");
+        document.getElementById("bmi").value = ""; // Clear the input field
+    }
+    });
+
+    document.getElementById("diabetes_pedigree_function").addEventListener("input", function() {
+    let diabetesPedigreeFunctionInput = document.getElementById("diabetes_pedigree_function").value.trim();
+    if (diabetesPedigreeFunctionInput === '') {
+        return; // Don't perform validation if the input is empty or contains only spaces
+    }
+
+    let diabetesPedigreeFunctionValue = parseFloat(diabetesPedigreeFunctionInput);
+    if (diabetesPedigreeFunctionValue < 0 || isNaN(diabetesPedigreeFunctionValue)) {
+        alert("Please enter a positive value for diabetes pedigree function.");
+        document.getElementById("diabetes_pedigree_function").value = ""; // Clear the input field
+    }
+    });
+
+    document.getElementById("outcome").addEventListener("input", function() {
+    let outcomeInput = document.getElementById("outcome").value.trim();
+
+    if (outcomeInput.length > 0 && outcomeInput !== '0' && outcomeInput !== '1') {
+        alert("Please enter either '0' or '1' as the outcome.");
+        document.getElementById("outcome").value = ""; // Clear the input field
+    }
+    });
+
+    function validateForm() {
+            var pregnanciesInput = document.getElementById("pregnancies").value;
+            var outcome = document.getElementById("outcome").value;
+            var bloodPressureInput = document.getElementById("blood_pressure").value;
+            var skinThicknessInput = document.getElementById("skin_thickness").value;
+            var insulinInput = document.getElementById("insulin").value;
+            var bmiInput = document.getElementById("bmi").value;
+            var diabetesPedigreeFunctionInput = document.getElementById("diabetes_pedigree_function").value;
+            var ageInput = document.getElementById("age").value;
+
+            if (
+                pregnanciesInput === '' ||
+                outcome === '' ||
+                bloodPressureInput === '' ||
+                skinThicknessInput === '' ||
+                insulinInput === '' ||
+                bmiInput === '' ||
+                diabetesPedigreeFunctionInput === '' ||
+                ageInput === ''
+            ) {
+                alert("Please fill in all fields.");
+                return false;
+            }
+
+            return true; // Form submission allowed if all fields are filled
+        }
+
+        function checkFormValidity() {
+            var pregnanciesInput = document.getElementById("pregnancies").value;
+            var outcome = document.getElementById("outcome").value;
+            var bloodPressureInput = document.getElementById("blood_pressure").value;
+            var skinThicknessInput = document.getElementById("skin_thickness").value;
+            var insulinInput = document.getElementById("insulin").value;
+            var bmiInput = document.getElementById("bmi").value;
+            var diabetesPedigreeFunctionInput = document.getElementById("diabetes_pedigree_function").value;
+            var ageInput = document.getElementById("age").value;
+
+            var submitBtn = document.getElementById("submitBtn");
+            submitBtn.disabled = (
+                pregnanciesInput === '' ||
+                outcome === '' ||
+                bloodPressureInput === '' ||
+                skinThicknessInput === '' ||
+                insulinInput === '' ||
+                bmiInput === '' ||
+                diabetesPedigreeFunctionInput === '' ||
+                ageInput === ''
+            );
+        }
+
+        var inputFields = document.querySelectorAll('input[type="text"]');
+        inputFields.forEach(function(input) {
+            input.addEventListener("input", checkFormValidity);
+        });
+
+        checkFormValidity(); // Initial check to enable/disable submit button on page load
+
+</script>

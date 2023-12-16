@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Prediction</title>
+    <link rel="icon" href="{{ url_for('static', filename='icons8-diabetes-64.png') }}" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        input[type="radio"] {
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        h2 {
+            color: #333;
+            font-size: 36px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Choose Prediction Model</h2>
+    <form action="/predict" method="post" onsubmit="return validateForm()">
+        <label>
+            <input type="radio" id="glucose" name="prediction_type" value="glucose">
+            Predict Glucose Level
+        </label><br>
+        <label>
+            <input type="radio" id="diabetes" name="prediction_type" value="diabetes">
+            Predict Diabetes
+        </label><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+   <script>
+        function validateForm() {
+            var glucoseChecked = document.getElementById("glucose").checked;
+            var diabetesChecked = document.getElementById("diabetes").checked;
+
+            if (!glucoseChecked && !diabetesChecked) {
+                alert("Please select one prediction type.");
+                return false;
+            }
+            return true;
+        }
+
+        var radioButtons = document.querySelectorAll('input[type="radio"]');
+        radioButtons.forEach(function(radio) {
+            radio.addEventListener("change", function() {
+                var submitBtn = document.getElementById("submitBtn");
+                var glucoseChecked = document.getElementById("glucose").checked;
+                var diabetesChecked = document.getElementById("diabetes").checked;
+
+                submitBtn.disabled = !glucoseChecked && !diabetesChecked;
+            });
+        });
+    </script>
+</html>
